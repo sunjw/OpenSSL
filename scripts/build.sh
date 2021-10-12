@@ -81,7 +81,7 @@ configure() {
 build()
 {
    local ARCH=$1
-   local OS=$2
+   local OS=$2 # iPhoneOS/iPhoneSimulator/MacOSX/MacOSX_Catalyst
    local BUILD_DIR=$3
    local TYPE=$4 # iphoneos/iphonesimulator/macosx/macosx_catalyst
 
