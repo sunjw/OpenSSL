@@ -105,7 +105,7 @@ build()
    LOG_PATH="${PREFIX}.build.log"
    echo "Building ${LOG_PATH}"
    make -j4 &> ${LOG_PATH}
-   make install &> ${LOG_PATH}
+   make install_sw &> ${LOG_PATH}
    cd ${BASE_PWD}
 
    # Add arch to library
