@@ -103,9 +103,12 @@ build()
    configure "${OS}" $ARCH ${BUILD_DIR} ${SRC_DIR}
 
    LOG_PATH="${PREFIX}.build.log"
+   INSTALL_DEST="../${OPENSSL_VERSION}-${OS}-${ARCH}"
+   mkdir -p ${INSTALL_DEST}
+
    echo "Building ${LOG_PATH}"
    make -j4 &> ${LOG_PATH}
-   make install_sw DESTDIR=. &> ${LOG_PATH}
+   make install_sw DESTDIR=${INSTALL_DEST} &> ${LOG_PATH}
    cd ${BASE_PWD}
 
    # Add arch to library
@@ -113,7 +116,7 @@ build()
    if [ -f "${INSTALL_PREFIX}/lib/libcrypto.a" ]; then
       echo "INSTALL_PREFIX ${INSTALL_PREFIX}"
    else
-      INSTALL_PREFIX="${SRC_DIR}/usr/local"
+      INSTALL_PREFIX="${SRC_DIR}/${INSTALL_DEST}/usr/local"
       echo "INSTALL_PREFIX ${INSTALL_PREFIX}"
    fi
    if [ -f "${SCRIPT_DIR}/../${TYPE}/lib/libcrypto.a" ]; then
