@@ -70,7 +70,7 @@ configure() {
    if [ "$OS" == "MacOSX" ]; then
       ${SRC_DIR}/Configure macos-$ARCH no-asm no-shared --prefix="${PREFIX}" &> "${PREFIX}.config.log"
    elif [ "$OS" == "MacOSX_Catalyst" ]; then
-      ${SRC_DIR}/Configure mac-catalyst-$ARCH no-asm no-shared --prefix="${PREFIX}" &> "${PREFIX}.config.log"
+      ${SRC_DIR}/Configure mac-catalyst-$ARCH no-asm no-shared" &> "${PREFIX}.config.log"
    elif [ "$OS" == "iPhoneSimulator" ]; then
       ${SRC_DIR}/Configure ios-sim-cross-$ARCH no-asm no-shared --prefix="${PREFIX}" &> "${PREFIX}.config.log"
    elif [ "$OS" == "iPhoneOS" ]; then
@@ -104,7 +104,7 @@ build()
 
    LOG_PATH="${PREFIX}.build.log"
    echo "Building ${LOG_PATH}"
-   make &> ${LOG_PATH}
+   make -j4 &> ${LOG_PATH}
    make install &> ${LOG_PATH}
    cd ${BASE_PWD}
 
