@@ -249,7 +249,7 @@ build_catalyst() {
    # Copy headers
    INSTALL_DEST="/usr/local"
 
-   ditto ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX_Catalyst-x86_64/${INSTALL_DEST}/usr/local/include/openssl "${SCRIPT_DIR}/../macosx_catalyst/include/openssl"
+   ditto ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX_Catalyst-x86_64/${INSTALL_DEST}/include/openssl "${SCRIPT_DIR}/../macosx_catalyst/include/openssl"
    cp -f "${SCRIPT_DIR}/../shim/shim.h" "${SCRIPT_DIR}/../macosx_catalyst/include/openssl/shim.h"
 
    # fix inttypes.h
