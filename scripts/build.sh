@@ -109,19 +109,19 @@ build()
    cd ${BASE_PWD}
 
    # Add arch to library
-   LIB_PREFIX="${PREFIX}"
-   if [ -f "${LIB_PREFIX}/lib/libcrypto.a" ]; then
-      echo "LIB_PREFIX ${LIB_PREFIX}"
+   INSTALL_PREFIX="${PREFIX}"
+   if [ -f "${INSTALL_PREFIX}/lib/libcrypto.a" ]; then
+      echo "INSTALL_PREFIX ${INSTALL_PREFIX}"
    else
-      LIB_PREFIX="${SRC_DIR}/usr/local"
-      echo "LIB_PREFIX ${LIB_PREFIX}"
+      INSTALL_PREFIX="${SRC_DIR}/usr/local"
+      echo "INSTALL_PREFIX ${INSTALL_PREFIX}"
    fi
    if [ -f "${SCRIPT_DIR}/../${TYPE}/lib/libcrypto.a" ]; then
-      xcrun lipo "${SCRIPT_DIR}/../${TYPE}/lib/libcrypto.a" "${LIB_PREFIX}/lib/libcrypto.a" -create -output "${SCRIPT_DIR}/../${TYPE}/lib/libcrypto.a"
-      xcrun lipo "${SCRIPT_DIR}/../${TYPE}/lib/libssl.a" "${LIB_PREFIX}/lib/libssl.a" -create -output "${SCRIPT_DIR}/../${TYPE}/lib/libssl.a"
+      xcrun lipo "${SCRIPT_DIR}/../${TYPE}/lib/libcrypto.a" "${INSTALL_PREFIX}/lib/libcrypto.a" -create -output "${SCRIPT_DIR}/../${TYPE}/lib/libcrypto.a"
+      xcrun lipo "${SCRIPT_DIR}/../${TYPE}/lib/libssl.a" "${INSTALL_PREFIX}/lib/libssl.a" -create -output "${SCRIPT_DIR}/../${TYPE}/lib/libssl.a"
    else
-      cp "${LIB_PREFIX}/lib/libcrypto.a" "${SCRIPT_DIR}/../${TYPE}/lib/libcrypto.a"
-      cp "${LIB_PREFIX}/lib/libssl.a" "${SCRIPT_DIR}/../${TYPE}/lib/libssl.a"
+      cp "${INSTALL_PREFIX}/lib/libcrypto.a" "${SCRIPT_DIR}/../${TYPE}/lib/libcrypto.a"
+      cp "${INSTALL_PREFIX}/lib/libssl.a" "${SCRIPT_DIR}/../${TYPE}/lib/libssl.a"
    fi
 
    rm -rf "${SRC_DIR}"
