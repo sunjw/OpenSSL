@@ -3,11 +3,20 @@
 set -e
 # set -x
 
+XC_USER_DEFINED_VARS=""
+
+while getopts ":s" option; do
+   case $option in
+      s) # Build XCFramework as static instead of dynamic
+         XC_USER_DEFINED_VARS="MACH_O_TYPE=staticlib"
+   esac
+done
+
 BASE_PWD="$PWD"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 FWNAME="OpenSSL"
 OUTPUT_DIR=$( mktemp -d )
-COMMON_SETUP=" -project ${SCRIPT_DIR}/../${FWNAME}.xcodeproj -configuration Release -quiet BUILD_LIBRARY_FOR_DISTRIBUTION=YES "
+COMMON_SETUP=" -project ${SCRIPT_DIR}/../${FWNAME}.xcodeproj -configuration Release -quiet BUILD_LIBRARY_FOR_DISTRIBUTION=YES $XC_USER_DEFINED_VARS"
 
 # macOS
 DERIVED_DATA_PATH=$( mktemp -d )
@@ -90,6 +99,8 @@ xcrun xcodebuild -quiet -create-xcframework \
 	-output "${BASE_PWD}/Frameworks/${FWNAME}.xcframework"
 
 # Zip archive
-zip --symlinks -r "${BASE_PWD}/Frameworks/${FWNAME}.xcframework.zip" "${BASE_PWD}/Frameworks/${FWNAME}.xcframework"
+pushd "${BASE_PWD}/Frameworks"
+zip --symlinks -r "./${FWNAME}.xcframework.zip" "./${FWNAME}.xcframework"
+popd
 
-rm -rf ${OUTPUT_DIR}
+rm -rf "${OUTPUT_DIR}"

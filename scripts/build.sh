@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Yay shell scripting! This script builds a static version of
-# OpenSSL for iOS and OSX that contains code for armv6, armv7, armv7s, arm64, x86_64.
+# OpenSSL for iOS and OSX that contains code for arm64, x86_64.
 
 set -e
 # set -x
@@ -11,8 +11,13 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 # Setup paths to stuff we need
 
-OPENSSL_VERSION="1.1.1l"
+if [[ -z $OPENSSL_VERSION ]]; then
+ echo "OPENSSL_VERSION not set"
+ exit 1
+fi
+
 export OPENSSL_LOCAL_CONFIG_DIR="${SCRIPT_DIR}/../config"
+
 
 DEVELOPER=$(xcode-select --print-path)
 
@@ -91,6 +96,12 @@ build()
    mkdir -p "${SRC_DIR}"
    tar xzf "${SCRIPT_DIR}/../openssl-${OPENSSL_VERSION}.tar.gz" -C "${SRC_DIR}" --strip-components=1
 
+   # Apply patches if needed
+   local PATCH_FILE="${SCRIPT_DIR}/../patches/openssl-${OPENSSL_VERSION}.patch"
+   if [ -f "$PATCH_FILE" ]; then
+      patch -d "${SRC_DIR}" -p1 < $PATCH_FILE
+   fi
+
    echo "Building for ${OS} ${ARCH}"
 
    # Change dir
@@ -137,7 +148,6 @@ build_ios() {
    rm -rf "${SCRIPT_DIR}"/../{iphonesimulator/include,iphonesimulator/lib}
    mkdir -p "${SCRIPT_DIR}"/../{iphonesimulator/include,iphonesimulator/lib}
 
-   build "i386" "iPhoneSimulator" ${TMP_BUILD_DIR} "iphonesimulator"
    build "x86_64" "iPhoneSimulator" ${TMP_BUILD_DIR} "iphonesimulator"
    build "arm64" "iPhoneSimulator" ${TMP_BUILD_DIR} "iphonesimulator"
 
@@ -147,8 +157,6 @@ build_ios() {
    rm -rf "${SCRIPT_DIR}"/../{iphoneos/include,iphoneos/lib}
    mkdir -p "${SCRIPT_DIR}"/../{iphoneos/include,iphoneos/lib}
 
-   build "armv7" "iPhoneOS" ${TMP_BUILD_DIR} "iphoneos"
-   build "armv7s" "iPhoneOS" ${TMP_BUILD_DIR} "iphoneos"
    build "arm64" "iPhoneOS" ${TMP_BUILD_DIR} "iphoneos"
 
    # The World is not ready for arm64e!
@@ -168,12 +176,8 @@ build_ios() {
    find "${SCRIPT_DIR}/../iphonesimulator/include/openssl" -type f -name "*.h" -exec sed -i "" -e "s/include <inttypes\.h>/include <sys\/types\.h>/g" {} \;
 
    local OPENSSLCONF_PATH="${SCRIPT_DIR}/../iphonesimulator/include/openssl/opensslconf.h"
-   echo "#if defined(__APPLE__) && defined (__i386__)" > ${OPENSSLCONF_PATH}
-   cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneSimulator-i386/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
-   echo "#elif defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
+   echo "#if defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
    cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneSimulator-x86_64/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
-   echo "#elif defined(__APPLE__) && defined (__arm__) && defined (__ARM_ARCH_7A__)" >> ${OPENSSLCONF_PATH}
-   echo "#elif defined(__APPLE__) && defined (__arm__) && defined (__ARM_ARCH_7S__)" >> ${OPENSSLCONF_PATH}
    # The World is not ready for arm64e!
    # echo "#elif defined(__APPLE__) && defined (__arm64e__)" >> ${OPENSSLCONF_PATH}
    # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneSimulator-arm64e/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
@@ -182,12 +186,7 @@ build_ios() {
    echo "#endif" >> ${OPENSSLCONF_PATH}
 
    OPENSSLCONF_PATH="${SCRIPT_DIR}/../iphoneos/include/openssl/opensslconf.h"
-   echo "#if defined(__APPLE__) && defined (__i386__)" > ${OPENSSLCONF_PATH}
-   echo "#elif defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
-   echo "#elif defined(__APPLE__) && defined (__arm__) && defined (__ARM_ARCH_7A__)" >> ${OPENSSLCONF_PATH}
-   cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneOS-armv7/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
-   echo "#elif defined(__APPLE__) && defined (__arm__) && defined (__ARM_ARCH_7S__)" >> ${OPENSSLCONF_PATH}
-   cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneOS-armv7s/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
+   echo "#if defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
    # The World is not ready for arm64e!
    # echo "#elif defined(__APPLE__) && defined (__arm64e__)" >> ${OPENSSLCONF_PATH}
    # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneOS-arm64e/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
@@ -220,11 +219,8 @@ build_macos() {
    find "${SCRIPT_DIR}/../macosx/include/openssl" -type f -name "*.h" -exec sed -i "" -e "s/include <inttypes\.h>/include <sys\/types\.h>/g" {} \;
 
    local OPENSSLCONF_PATH="${SCRIPT_DIR}/../macosx/include/openssl/opensslconf.h"
-   echo "#if defined(__APPLE__) && defined (__i386__)" > ${OPENSSLCONF_PATH}
-   echo "#elif defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
+   echo "#if defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
    cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX-x86_64/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
-   echo "#elif defined(__APPLE__) && defined (__arm__) && defined (__ARM_ARCH_7A__)" >> ${OPENSSLCONF_PATH}
-   echo "#elif defined(__APPLE__) && defined (__arm__) && defined (__ARM_ARCH_7S__)" >> ${OPENSSLCONF_PATH}
    # The World is not ready for arm64e!
    # echo "#elif defined(__APPLE__) && defined (__arm64e__)" >> ${OPENSSLCONF_PATH}
    # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX-arm64e/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
@@ -259,11 +255,8 @@ build_catalyst() {
    # find "${SCRIPT_DIR}/../macosx/include/openssl" -type f -name "*.h" -exec sed -i "" -e "s/\#define RC4_INT unsigned char/\#if \!defined(RC4_INT)\n#define RC4_INT unsigned char\n\#endif\n/g" {} \;
 
    local OPENSSLCONF_PATH="${SCRIPT_DIR}/../macosx_catalyst/include/openssl/opensslconf.h"
-   echo "#if defined(__APPLE__) && defined (__i386__)" > ${OPENSSLCONF_PATH}
-   echo "#elif defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
+   echo "#if defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
    cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX_Catalyst-x86_64/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
-   echo "#elif defined(__APPLE__) && defined (__arm__) && defined (__ARM_ARCH_7A__)" >> ${OPENSSLCONF_PATH}
-   echo "#elif defined(__APPLE__) && defined (__arm__) && defined (__ARM_ARCH_7S__)" >> ${OPENSSLCONF_PATH}
    echo "#elif defined(__APPLE__) && defined (__arm64__)" >> ${OPENSSLCONF_PATH}
    cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX_Catalyst-arm64/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#endif" >> ${OPENSSLCONF_PATH}
