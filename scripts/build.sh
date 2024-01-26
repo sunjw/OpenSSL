@@ -9,8 +9,8 @@ set -e
 BASE_PWD="$PWD"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
-INSTALL_DEST="/usr/local"
 FWNAME="OpenSSL"
+INSTALL_DEST_HEADER="/usr/local"
 
 # Setup paths to stuff we need
 
@@ -166,10 +166,10 @@ build_ios() {
    # build "arm64e" "iPhoneOS" ${TMP_BUILD_DIR} "iphoneos"
 
    # Copy headers
-   ditto "${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneOS-arm64/${INSTALL_DEST}/include/openssl" "${SCRIPT_DIR}/../iphoneos/include/${FWNAME}"
+   ditto "${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneOS-arm64/${INSTALL_DEST_HEADER}/include/openssl" "${SCRIPT_DIR}/../iphoneos/include/${FWNAME}"
    cp -f "${SCRIPT_DIR}/../shim/shim.h" "${SCRIPT_DIR}/../iphoneos/include/${FWNAME}/shim.h"
 
-   ditto "${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneSimulator-arm64/${INSTALL_DEST}/include/openssl" "${SCRIPT_DIR}/../iphonesimulator/include/${FWNAME}"
+   ditto "${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneSimulator-arm64/${INSTALL_DEST_HEADER}/include/openssl" "${SCRIPT_DIR}/../iphonesimulator/include/${FWNAME}"
    cp -f "${SCRIPT_DIR}/../shim/shim.h" "${SCRIPT_DIR}/../iphonesimulator/include/${FWNAME}/shim.h"
 
    # fix inttypes.h
@@ -178,21 +178,21 @@ build_ios() {
 
    local OPENSSLCONF_PATH="${SCRIPT_DIR}/../iphonesimulator/include/${FWNAME}/opensslconf.h"
    echo "#if defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
-   cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneSimulator-x86_64/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
+   cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneSimulator-x86_64/${INSTALL_DEST_HEADER}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    # The World is not ready for arm64e!
    # echo "#elif defined(__APPLE__) && defined (__arm64e__)" >> ${OPENSSLCONF_PATH}
-   # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneSimulator-arm64e/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
+   # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneSimulator-arm64e/${INSTALL_DEST_HEADER}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#elif defined(__APPLE__) && defined (__arm64__)" >> ${OPENSSLCONF_PATH}
-   cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneSimulator-arm64/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
+   cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneSimulator-arm64/${INSTALL_DEST_HEADER}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#endif" >> ${OPENSSLCONF_PATH}
 
    OPENSSLCONF_PATH="${SCRIPT_DIR}/../iphoneos/include/${FWNAME}/opensslconf.h"
    echo "#if defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
    # The World is not ready for arm64e!
    # echo "#elif defined(__APPLE__) && defined (__arm64e__)" >> ${OPENSSLCONF_PATH}
-   # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneOS-arm64e/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
+   # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneOS-arm64e/${INSTALL_DEST_HEADER}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#elif defined(__APPLE__) && defined (__arm64__)" >> ${OPENSSLCONF_PATH}
-   cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneOS-arm64/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
+   cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneOS-arm64/${INSTALL_DEST_HEADER}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#endif" >> ${OPENSSLCONF_PATH}
    
    # Update include "openssl/" to "OpenSSL/"
@@ -215,7 +215,7 @@ build_macos() {
    # build "arm64e" "MacOSX" ${TMP_BUILD_DIR} "macosx"
 
    # Copy headers
-   ditto ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX-x86_64/${INSTALL_DEST}/include/openssl "${SCRIPT_DIR}/../macosx/include/${FWNAME}"
+   ditto ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX-x86_64/${INSTALL_DEST_HEADER}/include/openssl "${SCRIPT_DIR}/../macosx/include/${FWNAME}"
    cp -f "${SCRIPT_DIR}/../shim/shim.h" "${SCRIPT_DIR}/../macosx/include/${FWNAME}/shim.h"
 
    # fix inttypes.h
@@ -223,12 +223,12 @@ build_macos() {
 
    local OPENSSLCONF_PATH="${SCRIPT_DIR}/../macosx/include/${FWNAME}/opensslconf.h"
    echo "#if defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
-   cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX-x86_64/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
+   cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX-x86_64/${INSTALL_DEST_HEADER}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    # The World is not ready for arm64e!
    # echo "#elif defined(__APPLE__) && defined (__arm64e__)" >> ${OPENSSLCONF_PATH}
-   # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX-arm64e/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
+   # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX-arm64e/${INSTALL_DEST_HEADER}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#elif defined(__APPLE__) && defined (__arm64__)" >> ${OPENSSLCONF_PATH}
-   cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX-arm64/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
+   cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX-arm64/${INSTALL_DEST_HEADER}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#endif" >> ${OPENSSLCONF_PATH}
    
    # Update include "openssl/" to "OpenSSL/"
@@ -249,7 +249,7 @@ build_catalyst() {
    # build "arm64e" "MacOSX_Catalyst" ${TMP_BUILD_DIR} "macosx_catalyst"
 
    # Copy headers
-   ditto ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX_Catalyst-x86_64/${INSTALL_DEST}/include/openssl "${SCRIPT_DIR}/../macosx_catalyst/include/${FWNAME}"
+   ditto ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX_Catalyst-x86_64/${INSTALL_DEST_HEADER}/include/openssl "${SCRIPT_DIR}/../macosx_catalyst/include/${FWNAME}"
    cp -f "${SCRIPT_DIR}/../shim/shim.h" "${SCRIPT_DIR}/../macosx_catalyst/include/${FWNAME}/shim.h"
 
    # fix inttypes.h
@@ -260,9 +260,9 @@ build_catalyst() {
 
    local OPENSSLCONF_PATH="${SCRIPT_DIR}/../macosx_catalyst/include/${FWNAME}/opensslconf.h"
    echo "#if defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
-   cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX_Catalyst-x86_64/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
+   cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX_Catalyst-x86_64/${INSTALL_DEST_HEADER}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#elif defined(__APPLE__) && defined (__arm64__)" >> ${OPENSSLCONF_PATH}
-   cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX_Catalyst-arm64/${INSTALL_DEST}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
+   cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX_Catalyst-arm64/${INSTALL_DEST_HEADER}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#endif" >> ${OPENSSLCONF_PATH}
 
    # Update include "openssl/" to "OpenSSL/"
