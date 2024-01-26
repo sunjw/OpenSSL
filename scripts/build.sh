@@ -9,6 +9,7 @@ set -e
 BASE_PWD="$PWD"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
+INSTALL_DEST="/usr/local"
 FWNAME="OpenSSL"
 
 # Setup paths to stuff we need
@@ -165,8 +166,6 @@ build_ios() {
    # build "arm64e" "iPhoneOS" ${TMP_BUILD_DIR} "iphoneos"
 
    # Copy headers
-   INSTALL_DEST="/usr/local"
-
    ditto "${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneOS-arm64/${INSTALL_DEST}/include/openssl" "${SCRIPT_DIR}/../iphoneos/include/${FWNAME}"
    cp -f "${SCRIPT_DIR}/../shim/shim.h" "${SCRIPT_DIR}/../iphoneos/include/${FWNAME}/shim.h"
 
@@ -216,8 +215,8 @@ build_macos() {
    # build "arm64e" "MacOSX" ${TMP_BUILD_DIR} "macosx"
 
    # Copy headers
-   ditto ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX-x86_64/include/openssl "${SCRIPT_DIR}/../macosx/include/openssl"
-   cp -f "${SCRIPT_DIR}/../shim/shim.h" "${SCRIPT_DIR}/../macosx/include/openssl/shim.h"
+   ditto ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX-x86_64/${INSTALL_DEST}/include/openssl "${SCRIPT_DIR}/../macosx/include/${FWNAME}"
+   cp -f "${SCRIPT_DIR}/../shim/shim.h" "${SCRIPT_DIR}/../macosx/include/${FWNAME}/shim.h"
 
    # fix inttypes.h
    find "${SCRIPT_DIR}/../macosx/include/${FWNAME}" -type f -name "*.h" -exec sed -i "" -e "s/include <inttypes\.h>/include <sys\/types\.h>/g" {} \;
@@ -250,8 +249,8 @@ build_catalyst() {
    # build "arm64e" "MacOSX_Catalyst" ${TMP_BUILD_DIR} "macosx_catalyst"
 
    # Copy headers
-   ditto ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX_Catalyst-x86_64/include/openssl "${SCRIPT_DIR}/../macosx_catalyst/include/openssl"
-   cp -f "${SCRIPT_DIR}/../shim/shim.h" "${SCRIPT_DIR}/../macosx_catalyst/include/openssl/shim.h"
+   ditto ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX_Catalyst-x86_64/${INSTALL_DEST}/include/openssl "${SCRIPT_DIR}/../macosx_catalyst/include/${FWNAME}"
+   cp -f "${SCRIPT_DIR}/../shim/shim.h" "${SCRIPT_DIR}/../macosx_catalyst/include/${FWNAME}/shim.h"
 
    # fix inttypes.h
    find "${SCRIPT_DIR}/../macosx_catalyst/include/${FWNAME}" -type f -name "*.h" -exec sed -i "" -e "s/include <inttypes\.h>/include <sys\/types\.h>/g" {} \;
@@ -287,6 +286,6 @@ if [ ! -f "${SCRIPT_DIR}/../openssl-${OPENSSL_VERSION}.tar.gz" ]; then
    rm -f "${SCRIPT_DIR}/../openssl-${OPENSSL_VERSION}.tar.gz.sha256"
 fi
 
-build_ios
+#build_ios
 build_macos
-build_catalyst
+#build_catalyst
