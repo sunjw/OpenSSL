@@ -1,6 +1,6 @@
 .PHONY: build
 .PHONY: frameworks
-.PHONY: project
+#.PHONY: project
 
 .EXPORT_ALL_VARIABLES:
 
@@ -11,14 +11,15 @@ XROS_DEPLOYMENT_VERSION=1.0
 APPLETVOS_DEPLOYMENT_VERSION=12.0
 WATCHOS_DEPLOYMENT_VERSION=8.0
 
-SIGNING_IDENTITY ?= "Apple Distribution: Marcin Krzyzanowski (67RAULRX93)"
+SIGNING_IDENTITY ?= ""
 
 CWD := $(abspath $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST))))))
 
-all: project build frameworks
+#all: project build frameworks
+all: build frameworks
 
-project:
-	tuist generate --no-open --no-binary-cache -p $(CWD)
+#project:
+#	tuist generate --no-open --no-binary-cache -p $(CWD)
 
 build:
 	$(CWD)/scripts/build.sh
