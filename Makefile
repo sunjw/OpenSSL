@@ -16,7 +16,7 @@ SIGNING_IDENTITY ?= ""
 CWD := $(abspath $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST))))))
 
 #all: project build frameworks
-all: build frameworks
+all: build
 
 #project:
 #	tuist generate --no-open --no-binary-cache -p $(CWD)
