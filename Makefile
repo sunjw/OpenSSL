@@ -15,6 +15,8 @@ XROS_DEPLOYMENT_VERSION=1.0
 APPLETVOS_DEPLOYMENT_VERSION=12.0
 WATCHOS_DEPLOYMENT_VERSION=8.0
 
+SIGNING_IDENTITY=""
+
 # Store the filtered output of security command in a file for processing
 TEMP_IDENTITIES_FILE := $(shell mktemp)
 SECURITY_OUTPUT := $(shell security find-identity -v -p codesigning | grep "Apple Distribution" | sort -u > $(TEMP_IDENTITIES_FILE))
@@ -33,24 +35,25 @@ endif
 CWD := $(abspath $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST))))))
 
 # Make check-signing-identity the first task for 'all' only
-all: check-signing-identity project build frameworks
+#all: check-signing-identity project build frameworks
+all: project build frameworks
 
 project:
-ifdef SIGNING_IDENTITY
-    # Extract team ID from signing identity
-	$(eval TEAM_ID := $(shell echo "$(SIGNING_IDENTITY)" | grep -o '([A-Z0-9]\+)' | tr -d '()'))
-    # Verify team ID was extracted
-	@if [ -z "$(TEAM_ID)" ]; then \
-		echo "Error: Could not extract Team ID from signing identity: $(SIGNING_IDENTITY)"; \
-		echo "The signing identity must be in the format 'Apple Distribution: Name (TEAMID)'"; \
-		exit 1; \
-	fi
+# ifdef SIGNING_IDENTITY
+#     # Extract team ID from signing identity
+# 	$(eval TEAM_ID := $(shell echo "$(SIGNING_IDENTITY)" | grep -o '([A-Z0-9]\+)' | tr -d '()'))
+#     # Verify team ID was extracted
+# 	@if [ -z "$(TEAM_ID)" ]; then \
+# 		echo "Error: Could not extract Team ID from signing identity: $(SIGNING_IDENTITY)"; \
+# 		echo "The signing identity must be in the format 'Apple Distribution: Name (TEAMID)'"; \
+# 		exit 1; \
+# 	fi
 
-	TUIST_DEVELOPMENT_TEAM="$(TEAM_ID)" TUIST_MARKETING_VERSION="$(MARKETING_VERSION)" tuist generate --no-open --no-binary-cache -p $(CWD)
-else
-	@echo "Error: SIGNING_IDENTITY is not set. Cannot update Project.swift."
-	@exit 1
-endif
+# 	TUIST_DEVELOPMENT_TEAM="$(TEAM_ID)" TUIST_MARKETING_VERSION="$(MARKETING_VERSION)" tuist generate --no-open --no-binary-cache -p $(CWD)
+# else
+# 	@echo "Error: SIGNING_IDENTITY is not set. Cannot update Project.swift."
+# 	@exit 1
+# endif
 
 build:
 	$(CWD)/scripts/build.sh
