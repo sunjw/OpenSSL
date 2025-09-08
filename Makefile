@@ -36,7 +36,7 @@ CWD := $(abspath $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
 # Make check-signing-identity the first task for 'all' only
 #all: check-signing-identity project build frameworks
-all: project build frameworks
+all: project build
 
 project:
 # ifdef SIGNING_IDENTITY
