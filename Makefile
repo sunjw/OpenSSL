@@ -4,11 +4,12 @@
 .PHONY: check-signing-identity
 .PHONY: debug-signing
 .PHONY: all
+.PHONY: release
 
 .EXPORT_ALL_VARIABLES:
 
-OPENSSL_VERSION=3.3.3
-MARKETING_VERSION=3.3.3001
+OPENSSL_VERSION=3.6.0
+MARKETING_VERSION=3.6.0000
 IPHONEOS_DEPLOYMENT_VERSION=12.0
 MACOSX_DEPLOYMENT_TARGET=10.15
 XROS_DEPLOYMENT_VERSION=1.0
@@ -110,3 +111,18 @@ ifdef SIGNING_IDENTITY
 		echo "Warning: Could not extract Team ID from signing identity"; \
 	fi
 endif
+
+# Release target to create GitHub release and upload framework
+release:
+	@echo "Creating release $(MARKETING_VERSION)..."
+	@if [ ! -f "Frameworks/OpenSSL.xcframework.zip" ]; then \
+		echo "Error: Frameworks/OpenSSL.xcframework.zip not found."; \
+		echo "Run 'make frameworks' first to create the framework."; \
+		exit 1; \
+	fi
+	@echo "Creating GitHub release with tag $(MARKETING_VERSION)..."
+	gh release create "$(MARKETING_VERSION)" \
+		--title "OpenSSL $(MARKETING_VERSION)" \
+		--notes "OpenSSL $(OPENSSL_VERSION) for Apple platforms" \
+		"Frameworks/OpenSSL.xcframework.zip#OpenSSL.xcframework.zip"
+	@echo "Release $(MARKETING_VERSION) published successfully."

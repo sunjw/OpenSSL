@@ -6,12 +6,6 @@ OpenSSL [CocoaPods](https://cocoapods.org/), [Carthage](https://github.com/Carth
 
 The financial sustainability of the project is possible thanks to the ongoing contributions from our [GitHub Sponsors](https://github.com/sponsors/krzyzanowskim)
 
-### Premium Sponsors
-
-  [Emerge Tools](https://www.emergetools.com/) is a suite of revolutionary products designed to supercharge mobile apps and the teams that build them.
-
-  ![emerge-tools-black](https://github.com/krzyzanowskim/OpenSSL/assets/758033/a21f5ac1-ef39-4b56-a8d2-575adeb7fe55)
-
 ### Architectures
 
 - iOS with architectures: arm64 + simulator (x86_64, arm64)

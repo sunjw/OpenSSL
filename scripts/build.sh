@@ -484,9 +484,14 @@ if [ ! -f "${SCRIPT_DIR}/../openssl-${OPENSSL_VERSION}.tar.gz" ]; then
    DIGEST=$( cat ${SCRIPT_DIR}/../openssl-${OPENSSL_VERSION}.tar.gz.sha256 )
 
    CALCULATED_DIGEST=$(shasum -a 256 "openssl-${OPENSSL_VERSION}.tar.gz")
-   if [[ "${CALCULATED_DIGEST}" != "${DIGEST}" ]]
+
+   # Normalize both checksums by extracting just the hash part (first field)
+   DIGEST_HASH=$(echo "${DIGEST}" | awk '{print $1}')
+   CALCULATED_HASH=$(echo "${CALCULATED_DIGEST}" | awk '{print $1}')
+
+   if [[ "${CALCULATED_HASH}" != "${DIGEST_HASH}" ]]
    then
-      echo "openssl-${OPENSSL_VERSION}.tar.gz: checksum mismatch. Calculated \"${CALCULATED_DIGEST}\". Received: \"${DIGEST}\""
+      echo "openssl-${OPENSSL_VERSION}.tar.gz: checksum mismatch. Calculated \"${CALCULATED_HASH}\". Received: \"${DIGEST_HASH}\""
       rm -f "${SCRIPT_DIR}/../openssl-${OPENSSL_VERSION}.tar.gz"
       rm -f "${SCRIPT_DIR}/../openssl-${OPENSSL_VERSION}.tar.gz.sha256"
       exit 1
