@@ -9,7 +9,7 @@
 .EXPORT_ALL_VARIABLES:
 
 OPENSSL_VERSION=3.6.0
-MARKETING_VERSION=3.6.0000
+MARKETING_VERSION=3.6.0001
 IPHONEOS_DEPLOYMENT_VERSION=12.0
 MACOSX_DEPLOYMENT_TARGET=10.15
 XROS_DEPLOYMENT_VERSION=1.0
@@ -40,6 +40,7 @@ CWD := $(abspath $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 all: project build
 
 project:
+# project: check-signing-identity
 # ifdef SIGNING_IDENTITY
 #     # Extract team ID from signing identity
 # 	$(eval TEAM_ID := $(shell echo "$(SIGNING_IDENTITY)" | grep -o '([A-Z0-9]\+)' | tr -d '()'))
@@ -49,7 +50,7 @@ project:
 # 		echo "The signing identity must be in the format 'Apple Distribution: Name (TEAMID)'"; \
 # 		exit 1; \
 # 	fi
-
+#
 # 	TUIST_DEVELOPMENT_TEAM="$(TEAM_ID)" TUIST_MARKETING_VERSION="$(MARKETING_VERSION)" tuist generate --no-open --no-binary-cache -p $(CWD)
 # else
 # 	@echo "Error: SIGNING_IDENTITY is not set. Cannot update Project.swift."

@@ -30,6 +30,7 @@ xcrun xcodebuild build \
 mkdir -p "${OUTPUT_DIR}/macosx"
 rm -rf "${OUTPUT_DIR}/macosx/${FWNAME}.framework"
 ditto "${DERIVED_DATA_PATH}/Build/Products/Release/${FWNAME}.framework" "${OUTPUT_DIR}/macosx/${FWNAME}.framework"
+ditto "${DERIVED_DATA_PATH}/Build/Products/Release/${FWNAME}.framework.dSYM" "${OUTPUT_DIR}/macosx/${FWNAME}.framework.dSYM"
 rm -rf "${DERIVED_DATA_PATH}"
 
 # macOS Catalyst
@@ -43,6 +44,7 @@ xcrun xcodebuild build \
 mkdir -p "${OUTPUT_DIR}/macosx_catalyst"
 rm -rf "${OUTPUT_DIR}/macosx_catalyst/${FWNAME}.framework"
 ditto "${DERIVED_DATA_PATH}/Build/Products/Release-maccatalyst/${FWNAME}.framework" "${OUTPUT_DIR}/macosx_catalyst/${FWNAME}.framework"
+ditto "${DERIVED_DATA_PATH}/Build/Products/Release-maccatalyst/${FWNAME}.framework.dSYM" "${OUTPUT_DIR}/macosx_catalyst/${FWNAME}.framework.dSYM"
 rm -rf "${DERIVED_DATA_PATH}"
 
 # iOS
@@ -56,6 +58,7 @@ xcrun xcodebuild build \
 rm -rf "${OUTPUT_DIR}/iphoneos"
 mkdir -p "${OUTPUT_DIR}/iphoneos"
 ditto "${DERIVED_DATA_PATH}/Build/Products/Release-iphoneos/${FWNAME}.framework" "${OUTPUT_DIR}/iphoneos/${FWNAME}.framework"
+ditto "${DERIVED_DATA_PATH}/Build/Products/Release-iphoneos/${FWNAME}.framework.dSYM" "${OUTPUT_DIR}/iphoneos/${FWNAME}.framework.dSYM"
 rm -rf "${DERIVED_DATA_PATH}"
 
 # iOS Simulator
@@ -69,6 +72,7 @@ xcrun xcodebuild build \
 rm -rf "${OUTPUT_DIR}/iphonesimulator"
 mkdir -p "${OUTPUT_DIR}/iphonesimulator"
 ditto "${DERIVED_DATA_PATH}/Build/Products/Release-iphonesimulator/${FWNAME}.framework" "${OUTPUT_DIR}/iphonesimulator/${FWNAME}.framework"
+ditto "${DERIVED_DATA_PATH}/Build/Products/Release-iphonesimulator/${FWNAME}.framework.dSYM" "${OUTPUT_DIR}/iphonesimulator/${FWNAME}.framework.dSYM"
 rm -rf "${DERIVED_DATA_PATH}"
 
 # visionOS
@@ -82,6 +86,7 @@ xcrun xcodebuild build \
 rm -rf "${OUTPUT_DIR}/visionos"
 mkdir -p "${OUTPUT_DIR}/visionos"
 ditto "${DERIVED_DATA_PATH}/Build/Products/Release-xros/${FWNAME}.framework" "${OUTPUT_DIR}/visionos/${FWNAME}.framework"
+ditto "${DERIVED_DATA_PATH}/Build/Products/Release-xros/${FWNAME}.framework.dSYM" "${OUTPUT_DIR}/visionos/${FWNAME}.framework.dSYM"
 rm -rf "${DERIVED_DATA_PATH}"
 
 # visionOS Simulator
@@ -95,6 +100,7 @@ xcrun xcodebuild build \
 rm -rf "${OUTPUT_DIR}/visionsimulator"
 mkdir -p "${OUTPUT_DIR}/visionsimulator"
 ditto "${DERIVED_DATA_PATH}/Build/Products/Release-xrsimulator/${FWNAME}.framework" "${OUTPUT_DIR}/visionsimulator/${FWNAME}.framework"
+ditto "${DERIVED_DATA_PATH}/Build/Products/Release-xrsimulator/${FWNAME}.framework.dSYM" "${OUTPUT_DIR}/visionsimulator/${FWNAME}.framework.dSYM"
 rm -rf "${DERIVED_DATA_PATH}"
 
 # tvOS
@@ -108,6 +114,7 @@ xcrun xcodebuild build \
 rm -rf "${OUTPUT_DIR}/appletvos"
 mkdir -p "${OUTPUT_DIR}/appletvos"
 ditto "${DERIVED_DATA_PATH}/Build/Products/Release-appletvos/${FWNAME}.framework" "${OUTPUT_DIR}/appletvos/${FWNAME}.framework"
+ditto "${DERIVED_DATA_PATH}/Build/Products/Release-appletvos/${FWNAME}.framework.dSYM" "${OUTPUT_DIR}/appletvos/${FWNAME}.framework.dSYM"
 rm -rf "${DERIVED_DATA_PATH}"
 
 # tvOS Simulator
@@ -121,6 +128,7 @@ xcrun xcodebuild build \
 rm -rf "${OUTPUT_DIR}/appletvsimulator"
 mkdir -p "${OUTPUT_DIR}/appletvsimulator"
 ditto "${DERIVED_DATA_PATH}/Build/Products/Release-appletvsimulator/${FWNAME}.framework" "${OUTPUT_DIR}/appletvsimulator/${FWNAME}.framework"
+ditto "${DERIVED_DATA_PATH}/Build/Products/Release-appletvsimulator/${FWNAME}.framework.dSYM" "${OUTPUT_DIR}/appletvsimulator/${FWNAME}.framework.dSYM"
 rm -rf "${DERIVED_DATA_PATH}"
 
 # watchOS
@@ -134,6 +142,7 @@ xcrun xcodebuild build \
 rm -rf "${OUTPUT_DIR}/watchos"
 mkdir -p "${OUTPUT_DIR}/watchos"
 ditto "${DERIVED_DATA_PATH}/Build/Products/Release-watchos/${FWNAME}.framework" "${OUTPUT_DIR}/watchos/${FWNAME}.framework"
+ditto "${DERIVED_DATA_PATH}/Build/Products/Release-watchos/${FWNAME}.framework.dSYM" "${OUTPUT_DIR}/watchos/${FWNAME}.framework.dSYM"
 rm -rf "${DERIVED_DATA_PATH}"
 
 # watchOS Simulator
@@ -147,6 +156,7 @@ xcrun xcodebuild build \
 rm -rf "${OUTPUT_DIR}/watchsimulator"
 mkdir -p "${OUTPUT_DIR}/watchsimulator"
 ditto "${DERIVED_DATA_PATH}/Build/Products/Release-watchsimulator/${FWNAME}.framework" "${OUTPUT_DIR}/watchsimulator/${FWNAME}.framework"
+ditto "${DERIVED_DATA_PATH}/Build/Products/Release-watchsimulator/${FWNAME}.framework.dSYM" "${OUTPUT_DIR}/watchsimulator/${FWNAME}.framework.dSYM"
 rm -rf "${DERIVED_DATA_PATH}"
 
 #
@@ -154,62 +164,94 @@ rm -rf "${DERIVED_DATA_PATH}"
 rm -rf "${BASE_PWD}/Frameworks/iphoneos"
 mkdir -p "${BASE_PWD}/Frameworks/iphoneos"
 ditto "${OUTPUT_DIR}/iphoneos/${FWNAME}.framework" "${BASE_PWD}/Frameworks/iphoneos/${FWNAME}.framework"
+ditto "${OUTPUT_DIR}/iphoneos/${FWNAME}.framework.dSYM" "${BASE_PWD}/Frameworks/iphoneos/${FWNAME}.framework.dSYM"
 
 rm -rf "${BASE_PWD}/Frameworks/iphonesimulator"
 mkdir -p "${BASE_PWD}/Frameworks/iphonesimulator"
 ditto "${OUTPUT_DIR}/iphonesimulator/${FWNAME}.framework" "${BASE_PWD}/Frameworks/iphonesimulator/${FWNAME}.framework"
+ditto "${OUTPUT_DIR}/iphonesimulator/${FWNAME}.framework.dSYM" "${BASE_PWD}/Frameworks/iphonesimulator/${FWNAME}.framework.dSYM"
 
 rm -rf "${BASE_PWD}/Frameworks/visionos"
 mkdir -p "${BASE_PWD}/Frameworks/visionos"
 ditto "${OUTPUT_DIR}/visionos/${FWNAME}.framework" "${BASE_PWD}/Frameworks/visionos/${FWNAME}.framework"
+ditto "${OUTPUT_DIR}/visionos/${FWNAME}.framework.dSYM" "${BASE_PWD}/Frameworks/visionos/${FWNAME}.framework.dSYM"
 
 rm -rf "${BASE_PWD}/Frameworks/visionsimulator"
 mkdir -p "${BASE_PWD}/Frameworks/visionsimulator"
 ditto "${OUTPUT_DIR}/visionsimulator/${FWNAME}.framework" "${BASE_PWD}/Frameworks/visionsimulator/${FWNAME}.framework"
+ditto "${OUTPUT_DIR}/visionsimulator/${FWNAME}.framework.dSYM" "${BASE_PWD}/Frameworks/visionsimulator/${FWNAME}.framework.dSYM"
 
 rm -rf "${BASE_PWD}/Frameworks/appletvos"
 mkdir -p "${BASE_PWD}/Frameworks/appletvos"
 ditto "${OUTPUT_DIR}/appletvos/${FWNAME}.framework" "${BASE_PWD}/Frameworks/appletvos/${FWNAME}.framework"
+ditto "${OUTPUT_DIR}/appletvos/${FWNAME}.framework.dSYM" "${BASE_PWD}/Frameworks/appletvos/${FWNAME}.framework.dSYM"
 
 rm -rf "${BASE_PWD}/Frameworks/appletvsimulator"
 mkdir -p "${BASE_PWD}/Frameworks/appletvsimulator"
 ditto "${OUTPUT_DIR}/appletvsimulator/${FWNAME}.framework" "${BASE_PWD}/Frameworks/appletvsimulator/${FWNAME}.framework"
+ditto "${OUTPUT_DIR}/appletvsimulator/${FWNAME}.framework.dSYM" "${BASE_PWD}/Frameworks/appletvsimulator/${FWNAME}.framework.dSYM"
 
 rm -rf "${BASE_PWD}/Frameworks/watchos"
 mkdir -p "${BASE_PWD}/Frameworks/watchos"
 ditto "${OUTPUT_DIR}/watchos/${FWNAME}.framework" "${BASE_PWD}/Frameworks/watchos/${FWNAME}.framework"
+ditto "${OUTPUT_DIR}/watchos/${FWNAME}.framework.dSYM" "${BASE_PWD}/Frameworks/watchos/${FWNAME}.framework.dSYM"
 
 rm -rf "${BASE_PWD}/Frameworks/watchsimulator"
 mkdir -p "${BASE_PWD}/Frameworks/watchsimulator"
 ditto "${OUTPUT_DIR}/watchsimulator/${FWNAME}.framework" "${BASE_PWD}/Frameworks/watchsimulator/${FWNAME}.framework"
+ditto "${OUTPUT_DIR}/watchsimulator/${FWNAME}.framework.dSYM" "${BASE_PWD}/Frameworks/watchsimulator/${FWNAME}.framework.dSYM"
 
 rm -rf "${BASE_PWD}/Frameworks/macosx"
 mkdir -p "${BASE_PWD}/Frameworks/macosx"
 ditto "${OUTPUT_DIR}/macosx/${FWNAME}.framework" "${BASE_PWD}/Frameworks/macosx/${FWNAME}.framework"
+ditto "${OUTPUT_DIR}/macosx/${FWNAME}.framework.dSYM" "${BASE_PWD}/Frameworks/macosx/${FWNAME}.framework.dSYM"
 
 rm -rf "${BASE_PWD}/Frameworks/macosx_catalyst"
 mkdir -p "${BASE_PWD}/Frameworks/macosx_catalyst"
 ditto "${OUTPUT_DIR}/macosx_catalyst/${FWNAME}.framework" "${BASE_PWD}/Frameworks/macosx_catalyst/${FWNAME}.framework"
+ditto "${OUTPUT_DIR}/macosx_catalyst/${FWNAME}.framework.dSYM" "${BASE_PWD}/Frameworks/macosx_catalyst/${FWNAME}.framework.dSYM"
 
 # XCFramework
 rm -rf "${BASE_PWD}/Frameworks/${FWNAME}.xcframework"
 
 xcrun xcodebuild -create-xcframework \
-	-framework "${BASE_PWD}/Frameworks/iphoneos/${FWNAME}.framework" \
-	-framework "${BASE_PWD}/Frameworks/iphonesimulator/${FWNAME}.framework" \
-    -framework "${BASE_PWD}/Frameworks/visionos/${FWNAME}.framework" \
-    -framework "${BASE_PWD}/Frameworks/visionsimulator/${FWNAME}.framework" \
-	-framework "${BASE_PWD}/Frameworks/appletvos/${FWNAME}.framework" \
-	-framework "${BASE_PWD}/Frameworks/appletvsimulator/${FWNAME}.framework" \
+-framework "${BASE_PWD}/Frameworks/iphoneos/${FWNAME}.framework" \
+-debug-symbols "${BASE_PWD}/Frameworks/iphoneos/${FWNAME}.framework.dSYM" \
+-framework "${BASE_PWD}/Frameworks/iphonesimulator/${FWNAME}.framework" \
+-debug-symbols "${BASE_PWD}/Frameworks/iphonesimulator/${FWNAME}.framework.dSYM" \
+   -framework "${BASE_PWD}/Frameworks/visionos/${FWNAME}.framework" \
+   -debug-symbols "${BASE_PWD}/Frameworks/visionos/${FWNAME}.framework.dSYM" \
+   -framework "${BASE_PWD}/Frameworks/visionsimulator/${FWNAME}.framework" \
+   -debug-symbols "${BASE_PWD}/Frameworks/visionsimulator/${FWNAME}.framework.dSYM" \
+-framework "${BASE_PWD}/Frameworks/appletvos/${FWNAME}.framework" \
+-debug-symbols "${BASE_PWD}/Frameworks/appletvos/${FWNAME}.framework.dSYM" \
+-framework "${BASE_PWD}/Frameworks/appletvsimulator/${FWNAME}.framework" \
+	-debug-symbols "${BASE_PWD}/Frameworks/appletvsimulator/${FWNAME}.framework.dSYM" \
 	-framework "${BASE_PWD}/Frameworks/watchos/${FWNAME}.framework" \
+	-debug-symbols "${BASE_PWD}/Frameworks/watchos/${FWNAME}.framework.dSYM" \
 	-framework "${BASE_PWD}/Frameworks/watchsimulator/${FWNAME}.framework" \
+	-debug-symbols "${BASE_PWD}/Frameworks/watchsimulator/${FWNAME}.framework.dSYM" \
 	-framework "${BASE_PWD}/Frameworks/macosx/${FWNAME}.framework" \
+	-debug-symbols "${BASE_PWD}/Frameworks/macosx/${FWNAME}.framework.dSYM" \
 	-framework "${BASE_PWD}/Frameworks/macosx_catalyst/${FWNAME}.framework" \
+	-debug-symbols "${BASE_PWD}/Frameworks/macosx_catalyst/${FWNAME}.framework.dSYM" \
 	-output "${BASE_PWD}/Frameworks/${FWNAME}.xcframework"
 	
 # Sign
+# Using --deep to recursively sign all nested frameworks within the XCFramework bundle.
+# This is necessary for Swift Package Manager to validate the distributed artifact.
+#
+# NOTE: --deep is deprecated for signing since macOS 13.0. Apple recommends signing
+# each nested framework individually from inside-out instead. However, for pre-built
+# XCFramework distribution (as opposed to Xcode build integration), this remains
+# the most practical approach.
+#
+# Future solution when --deep is removed:
+#   find "${BASE_PWD}/Frameworks/${FWNAME}.xcframework" -depth -type d -name "*.framework" \
+#     -exec codesign --timestamp -s "${IDENTITY}" {} \;
+#   codesign --timestamp -s "${IDENTITY}" "${BASE_PWD}/Frameworks/${FWNAME}.xcframework"
 echo "Signing xcframework as ${IDENTITY}"
-xcrun codesign --timestamp -s "${IDENTITY}" "${BASE_PWD}/Frameworks/${FWNAME}.xcframework"
+xcrun codesign --timestamp --deep -s "${IDENTITY}" "${BASE_PWD}/Frameworks/${FWNAME}.xcframework"
 
 # Zip archive
 pushd "${BASE_PWD}/Frameworks"
