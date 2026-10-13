@@ -189,16 +189,14 @@ build_ios() {
    build "x86_64" "iPhoneSimulator" ${TMP_BUILD_DIR} "iphonesimulator"
    build "arm64" "iPhoneSimulator" ${TMP_BUILD_DIR} "iphonesimulator"
 
-   # The World is not ready for arm64e!
+   # arm64e is not required for simulators, standard arm64 is sufficient.
    # build "arm64e" "iPhoneSimulator" ${TMP_BUILD_DIR} "iphonesimulator"
 
    rm -rf "${SCRIPT_DIR}"/../{iphoneos/include,iphoneos/lib}
    mkdir -p "${SCRIPT_DIR}"/../{iphoneos/include,iphoneos/lib}
 
    build "arm64" "iPhoneOS" ${TMP_BUILD_DIR} "iphoneos"
-
-   # The World is not ready for arm64e!
-   # build "arm64e" "iPhoneOS" ${TMP_BUILD_DIR} "iphoneos"
+   build "arm64e" "iPhoneOS" ${TMP_BUILD_DIR} "iphoneos"
 
    # Copy headers
    ditto "${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneOS-arm64/${INSTALL_DEST_HEADER}/include/openssl" "${SCRIPT_DIR}/../iphoneos/include/${FWNAME}"
@@ -214,7 +212,7 @@ build_ios() {
    local OPENSSLCONF_PATH="${SCRIPT_DIR}/../iphonesimulator/include/${FWNAME}/opensslconf.h"
    echo "#if defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
    cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneSimulator-x86_64/${INSTALL_DEST_HEADER}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
-   # The World is not ready for arm64e!
+   # arm64e is not required for simulators
    # echo "#elif defined(__APPLE__) && defined (__arm64e__)" >> ${OPENSSLCONF_PATH}
    # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneSimulator-arm64e/${INSTALL_DEST_HEADER}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#elif defined(__APPLE__) && defined (__arm64__)" >> ${OPENSSLCONF_PATH}
@@ -223,7 +221,6 @@ build_ios() {
 
    OPENSSLCONF_PATH="${SCRIPT_DIR}/../iphoneos/include/${FWNAME}/opensslconf.h"
    echo "#if defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
-   # The World is not ready for arm64e!
    # echo "#elif defined(__APPLE__) && defined (__arm64e__)" >> ${OPENSSLCONF_PATH}
    # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneOS-arm64e/${INSTALL_DEST_HEADER}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#elif defined(__APPLE__) && defined (__arm64__)" >> ${OPENSSLCONF_PATH}
@@ -247,16 +244,14 @@ build_visionos() {
    build "x86_64" "visionSimulator" ${TMP_BUILD_DIR} "visionsimulator"
    build "arm64" "visionSimulator" ${TMP_BUILD_DIR} "visionsimulator"
 
-   # The World is not ready for arm64e!
+   # arm64e is not required for simulators
    # build "arm64e" "visionSimulator" ${TMP_BUILD_DIR} "visionsimulator"
 
    rm -rf "${SCRIPT_DIR}"/../{visionos/include,visionos/lib}
    mkdir -p "${SCRIPT_DIR}"/../{visionos/include,visionos/lib}
 
    build "arm64" "visionOS" ${TMP_BUILD_DIR} "visionos"
-
-   # The World is not ready for arm64e!
-   # build "arm64e" "visionOS" ${TMP_BUILD_DIR} "visionos"
+   build "arm64e" "visionOS" ${TMP_BUILD_DIR} "visionos"
 
    ditto "${TMP_BUILD_DIR}/${OPENSSL_VERSION}-visionOS-arm64/include/openssl" "${SCRIPT_DIR}/../visionos/include/${FWNAME}"
    cp -f "${SCRIPT_DIR}/../shim/shim.h" "${SCRIPT_DIR}/../visionos/include/${FWNAME}/shim.h"
@@ -272,7 +267,7 @@ build_visionos() {
    local OPENSSLCONF_PATH="${SCRIPT_DIR}/../visionsimulator/include/${FWNAME}/opensslconf.h"
    echo "#if defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
    cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-visionSimulator-x86_64/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
-   # The World is not ready for arm64e!
+   # arm64e is not required for simulators
    # echo "#elif defined(__APPLE__) && defined (__arm64e__)" >> ${OPENSSLCONF_PATH}
    # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-visionSimulator-arm64e/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#elif defined(__APPLE__) && defined (__arm64__)" >> ${OPENSSLCONF_PATH}
@@ -281,7 +276,6 @@ build_visionos() {
 
    OPENSSLCONF_PATH="${SCRIPT_DIR}/../visionos/include/${FWNAME}/opensslconf.h"
    echo "#if defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
-   # The World is not ready for arm64e!
    # echo "#elif defined(__APPLE__) && defined (__arm64e__)" >> ${OPENSSLCONF_PATH}
    # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-visionOS-arm64e/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#elif defined(__APPLE__) && defined (__arm64__)" >> ${OPENSSLCONF_PATH}
@@ -305,16 +299,14 @@ build_appletvos() {
    build "x86_64" "AppleTVSimulator" ${TMP_BUILD_DIR} "appletvsimulator"
    build "arm64" "AppleTVSimulator" ${TMP_BUILD_DIR} "appletvsimulator"
 
-   # The World is not ready for arm64e!
+   # arm64e is not required for simulators
    # build "arm64e" "AppleTVSimulator" ${TMP_BUILD_DIR} "appletvsimulator"
 
    rm -rf "${SCRIPT_DIR}"/../{appletvos/include,appletvos/lib}
    mkdir -p "${SCRIPT_DIR}"/../{appletvos/include,appletvos/lib}
 
    build "arm64" "AppleTVOS" ${TMP_BUILD_DIR} "appletvos"
-
-   # The World is not ready for arm64e!
-   # build "arm64e" "AppleTVOS" ${TMP_BUILD_DIR} "appletvos"
+   build "arm64e" "AppleTVOS" ${TMP_BUILD_DIR} "appletvos"
 
    ditto "${TMP_BUILD_DIR}/${OPENSSL_VERSION}-AppleTVOS-arm64/include/openssl" "${SCRIPT_DIR}/../appletvos/include/${FWNAME}"
    cp -f "${SCRIPT_DIR}/../shim/shim.h" "${SCRIPT_DIR}/../appletvos/include/${FWNAME}/shim.h"
@@ -330,7 +322,7 @@ build_appletvos() {
    local OPENSSLCONF_PATH="${SCRIPT_DIR}/../appletvsimulator/include/${FWNAME}/opensslconf.h"
    echo "#if defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
    cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-AppleTVSimulator-x86_64/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
-   # The World is not ready for arm64e!
+   # arm64e is not required for simulators
    # echo "#elif defined(__APPLE__) && defined (__arm64e__)" >> ${OPENSSLCONF_PATH}
    # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-AppleTVSimulator-arm64e/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#elif defined(__APPLE__) && defined (__arm64__)" >> ${OPENSSLCONF_PATH}
@@ -339,9 +331,8 @@ build_appletvos() {
 
    OPENSSLCONF_PATH="${SCRIPT_DIR}/../appletvos/include/${FWNAME}/opensslconf.h"
    echo "#if defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
-   # The World is not ready for arm64e!
-   # echo "#elif defined(__APPLE__) && defined (__arm64e__)" >> ${OPENSSLCONF_PATH}
-   # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-AppleTVOS-arm64e/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
+   echo "#elif defined(__APPLE__) && defined (__arm64e__)" >> ${OPENSSLCONF_PATH}
+   cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-AppleTVOS-arm64e/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#elif defined(__APPLE__) && defined (__arm64__)" >> ${OPENSSLCONF_PATH}
    cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-AppleTVOS-arm64/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#endif" >> ${OPENSSLCONF_PATH}
@@ -360,7 +351,8 @@ build_watchos() {
    rm -rf "${SCRIPT_DIR}"/../{watchsimulator/include,watchsimulator/lib}
    mkdir -p "${SCRIPT_DIR}"/../{watchsimulator/include,watchsimulator/lib}
 
-   build "i386" "watchSimulator" ${TMP_BUILD_DIR} "watchsimulator"
+   # i386 linking is no longer supported by the Xcode 27 toolchain.
+   # build "i386" "watchSimulator" ${TMP_BUILD_DIR} "watchsimulator"
    build "x86_64" "watchSimulator" ${TMP_BUILD_DIR} "watchsimulator"
    build "arm64" "watchSimulator" ${TMP_BUILD_DIR} "watchsimulator"
 
@@ -385,18 +377,12 @@ build_watchos() {
    local OPENSSLCONF_PATH="${SCRIPT_DIR}/../watchsimulator/include/${FWNAME}/opensslconf.h"
    echo "#if defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
    cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-watchSimulator-x86_64/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
-   # The World is not ready for arm64e!
-   # echo "#elif defined(__APPLE__) && defined (__arm64e__)" >> ${OPENSSLCONF_PATH}
-   # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-watchSimulator-arm64e/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#elif defined(__APPLE__) && defined (__arm64__)" >> ${OPENSSLCONF_PATH}
    cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-watchSimulator-arm64/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#endif" >> ${OPENSSLCONF_PATH}
 
    OPENSSLCONF_PATH="${SCRIPT_DIR}/../watchos/include/${FWNAME}/opensslconf.h"
    echo "#if defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
-   # The World is not ready for arm64e!
-   # echo "#elif defined(__APPLE__) && defined (__arm64e__)" >> ${OPENSSLCONF_PATH}
-   # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-watchOS-arm64e/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#elif defined(__APPLE__) && defined (__arm64__)" >> ${OPENSSLCONF_PATH}
    cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-watchOS-arm64/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#elif defined(__APPLE__) && defined (__arm64_32__)" >> ${OPENSSLCONF_PATH}
@@ -419,7 +405,8 @@ build_macos() {
 
    build "x86_64" "MacOSX" ${TMP_BUILD_DIR} "macosx"
    build "arm64" "MacOSX" ${TMP_BUILD_DIR} "macosx"
-   # The World is not ready for arm64e!
+
+   # Apple restricts third-party user-space apps from using arm64e on macOS without disabling SIP.
    # build "arm64e" "MacOSX" ${TMP_BUILD_DIR} "macosx"
 
    # Copy headers
@@ -432,7 +419,7 @@ build_macos() {
    local OPENSSLCONF_PATH="${SCRIPT_DIR}/../macosx/include/${FWNAME}/opensslconf.h"
    echo "#if defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
    cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX-x86_64/${INSTALL_DEST_HEADER}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
-   # The World is not ready for arm64e!
+   # Apple restricts third-party user-space apps from using arm64e on macOS without disabling SIP.
    # echo "#elif defined(__APPLE__) && defined (__arm64e__)" >> ${OPENSSLCONF_PATH}
    # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX-arm64e/${INSTALL_DEST_HEADER}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#elif defined(__APPLE__) && defined (__arm64__)" >> ${OPENSSLCONF_PATH}
@@ -454,6 +441,8 @@ build_catalyst() {
 
    build "x86_64" "MacOSX_Catalyst" ${TMP_BUILD_DIR} "macosx_catalyst"
    build "arm64" "MacOSX_Catalyst" ${TMP_BUILD_DIR} "macosx_catalyst"
+
+   # Apple restricts third-party user-space apps from using arm64e on macOS/Catalyst without disabling SIP.
    # build "arm64e" "MacOSX_Catalyst" ${TMP_BUILD_DIR} "macosx_catalyst"
 
    # Copy headers
@@ -466,6 +455,9 @@ build_catalyst() {
    local OPENSSLCONF_PATH="${SCRIPT_DIR}/../macosx_catalyst/include/${FWNAME}/opensslconf.h"
    echo "#if defined(__APPLE__) && defined (__x86_64__)" >> ${OPENSSLCONF_PATH}
    cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX_Catalyst-x86_64/${INSTALL_DEST_HEADER}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
+   # Apple restricts third-party user-space apps from using arm64e on macOS/Catalyst without disabling SIP.
+   # echo "#elif defined(__APPLE__) && defined (__arm64e__)" >> ${OPENSSLCONF_PATH}
+   # cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX_Catalyst-arm64e/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#elif defined(__APPLE__) && defined (__arm64__)" >> ${OPENSSLCONF_PATH}
    cat ${TMP_BUILD_DIR}/${OPENSSL_VERSION}-MacOSX_Catalyst-arm64/${INSTALL_DEST_HEADER}/include/openssl/opensslconf.h >> ${OPENSSLCONF_PATH}
    echo "#endif" >> ${OPENSSLCONF_PATH}
